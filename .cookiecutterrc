@@ -1,0 +1,75 @@
+# This file exists so you can easily regenerate your project.
+#
+# `cookiepatcher` is a convenient shim around `cookiecutter`
+# for regenerating projects (it will generate a .cookiecutterrc
+# automatically for any template). To use it:
+#
+#    pip install cookiepatcher
+#    cookiepatcher gh:ionelmc/cookiecutter-pylibrary puid
+#
+# See:
+#    https://pypi.org/project/cookiepatcher
+#
+# Alternatively, you can run:
+#
+#    cookiecutter --overwrite-if-exists --config-file=puid/.cookiecutterrc gh:ionelmc/cookiecutter-pylibrary
+
+default_context:
+
+    _extensions:               ['jinja2_time.TimeExtension']
+    _output_dir:               '/Users/wcpr/Dev/projects/knoxen/puid/python'
+    _template:                 'gh:ionelmc/cookiecutter-pypackage'
+    allow_tests_inside_package: 'no'
+    appveyor:                  'no'
+    c_extension_function:      'longest'
+    c_extension_module:        '_puid'
+    c_extension_optional:      'no'
+    c_extension_support:       'no'
+    c_extension_test_pypi:     'no'
+    c_extension_test_pypi_username: 'puid'
+    codacy:                    'no'
+    codacy_projectid:          '[Get ID from https://app.codacy.com/gh/puid/puid/settings]'
+    codeclimate:               'no'
+    codecov:                   'yes'
+    command_line_interface:    'plain'
+    command_line_interface_bin_name: 'puid'
+    coveralls:                 'no'
+    distribution_name:         'puid'
+    email:                     'paul@dingosky.com'
+    full_name:                 'Paul Rogers'
+    github_actions:            'yes'
+    github_actions_osx:        'yes'
+    github_actions_windows:    'no'
+    legacy_python:             'no'
+    license:                   'MIT license'
+    linter:                    'flake8'
+    package_name:              'puid'
+    pre_commit:                'yes'
+    pre_commit_formatter:      'black'
+    project_name:              'puid'
+    project_short_description: 'Simple, fast, flexible and efficient generation of probably unique identifiers (`puid`, aka random strings) of intuitively specified entropy using pre-defined or custom characters'
+    pypi_badge:                'yes'
+    pypi_disable_upload:       'no'
+    release_date:              'today'
+    repo_hosting:              'github.com'
+    repo_hosting_domain:       'github.com'
+    repo_main_branch:          'main'
+    repo_name:                 'puid'
+    repo_username:             'puid'
+    requiresio:                'no'
+    scrutinizer:               'no'
+    setup_py_uses_pytest_runner: 'yes'
+    setup_py_uses_setuptools_scm: 'no'
+    sphinx_docs:               'yes'
+    sphinx_docs_hosting:       'https://puid.readthedocs.io/'
+    sphinx_doctest:            'yes'
+    sphinx_theme:              'sphinx-py3doc-enhanced-theme'
+    test_matrix_configurator:  'no'
+    test_matrix_separate_coverage: 'no'
+    travis:                    'yes'
+    travis_osx:                'yes'
+    version:                   '0.0.0'
+    version_manager:           'bump2version'
+    website:                   'https://github.com/puid/python'
+    year_from:                 '2022'
+    year_to:                   '2022'

@@ -1,0 +1,19 @@
+[paths]
+source =
+   src
+   */site-packages
+
+[run]
+branch = True
+source =
+    puid
+    tests
+omit =
+    **/__main__.py
+    **/cli.py
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
