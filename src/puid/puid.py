@@ -14,7 +14,7 @@ from puid.puid_error import TotalRiskError
 
 
 class Puid:
-    def __init__(self, bits=None, total=None, risk=None, chars=None, entropy_source=None):
+    def __init__(self, total=None, risk=None, bits=None, chars=None, entropy_source=None):
 
         base_bits = None
         if bits is None and total is None and risk is None:

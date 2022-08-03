@@ -72,6 +72,9 @@ def test_total_no_risk():
     with pytest.raises(TotalRiskError):
         Puid(total=10000)
 
+    with pytest.raises(TotalRiskError):
+        Puid(10000)
+
 
 def test_risk_no_total():
     with pytest.raises(TotalRiskError):
