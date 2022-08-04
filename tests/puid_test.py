@@ -8,19 +8,6 @@ from puid.puid_error import BitsError
 from puid.puid_error import TotalRiskError
 
 
-def fixed_bytes(hex_string):
-    static_bytes = bytearray.fromhex(hex_string)
-    offset = 0
-
-    def get_bytes(n_bytes):
-        nonlocal offset
-        bytes = static_bytes[offset : offset + n_bytes]
-        offset += n_bytes
-        return bytes
-
-    return get_bytes
-
-
 def check_puid(id, bits, bpc, puid_len, ere, name):
     assert round(id.bits, 2) == bits
     assert round(id.bits_per_char, 2) == bpc
@@ -109,43 +96,43 @@ def test_invalid_chars():
         Puid(chars=['a', 'b', 'c'])
 
 
-def test_char_count_pow_2():
-    hex_bytes = fixed_bytes("99 b4 4f 80 c8 89")
+def test_char_count_pow_2(util):
+    hex_bytes = util.fixed_bytes("99 b4 4f 80 c8 89")
     hex_id = Puid(bits=24, chars=Chars.HEX, entropy_source=hex_bytes)
     assert hex_id.generate() == "99b44f"
     assert hex_id.generate() == "80c889"
 
 
-def test_3bit_custom():
-    dingosky_bytes = fixed_bytes("c7 c9 00 2a bd 72")
+def test_3bit_custom(util):
+    dingosky_bytes = util.fixed_bytes("c7 c9 00 2a bd 72")
     dingosky_id = Puid(bits=24, chars="dingosky", entropy_source=dingosky_bytes)
     assert dingosky_id.generate() == "kiyooodd"
     assert dingosky_id.generate() == "insgkskn"
 
 
-def test_2bit_custom():
-    dna_bytes = fixed_bytes("cb db 52 a2")
+def test_2bit_custom(util):
+    dna_bytes = util.fixed_bytes("cb db 52 a2")
     dna_id = Puid(bits=16, chars="ATCG", entropy_source=dna_bytes)
     assert dna_id.generate() == "GACGGTCG"
     assert dna_id.generate() == "TTACCCAC"
 
 
-def test_1bit_custom():
-    tf_bytes = fixed_bytes("fb 04 2c b3")
+def test_1bit_custom(util):
+    tf_bytes = util.fixed_bytes("fb 04 2c b3")
     tf_id = Puid(bits=16, chars="FT", entropy_source=tf_bytes)
     assert tf_id.generate() == "TTTTTFTTFFFFFTFF"
     assert tf_id.generate() == "FFTFTTFFTFTTFFTT"
 
 
-def test_hex_with_carry():
-    hex_bytes = fixed_bytes("c7 c9 00 2a bd")
+def test_hex_with_carry(util):
+    hex_bytes = util.fixed_bytes("c7 c9 00 2a bd")
     hex_id = Puid(bits=12, chars=Chars.HEX_UPPER, entropy_source=hex_bytes)
     assert hex_id.generate() == "C7C"
     assert hex_id.generate() == "900"
     assert hex_id.generate() == "2AB"
 
 
-def test_3bit_with_carry():
+def test_3bit_with_carry(util):
     #    C    7    C    9    0    0    2    A    B    D    7    2
     # 1100 0111 1100 1001 0000 0000 0010 1010 1011 1101 0111 0010
     #
@@ -153,7 +140,7 @@ def test_3bit_with_carry():
     #  |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-| |-|
     #   k   i   y   o   o   o   d   d   i   n   s   g   k   s   k   n
 
-    dingosky_bytes = fixed_bytes("c7 c9 00 2a bd 72")
+    dingosky_bytes = util.fixed_bytes("c7 c9 00 2a bd 72")
     dingosky_id = Puid(bits=9, chars="dingosky", entropy_source=dingosky_bytes)
     assert dingosky_id.generate() == "kiy"
     assert dingosky_id.generate() == "ooo"
@@ -162,8 +149,8 @@ def test_3bit_with_carry():
     assert dingosky_id.generate() == "ksk"
 
 
-def test_3bit_unicode_with_carry():
-    dingosky_bytes = fixed_bytes("c7 c9 00 2a bd 72")
+def test_3bit_unicode_with_carry(util):
+    dingosky_bytes = util.fixed_bytes("c7 c9 00 2a bd 72")
     dingosky_id = Puid(bits=9, chars="dîngøsky", entropy_source=dingosky_bytes)
     assert dingosky_id.generate() == "kîy"
     assert dingosky_id.generate() == "øøø"
@@ -172,7 +159,7 @@ def test_3bit_unicode_with_carry():
     assert dingosky_id.generate() == "ksk"
 
 
-def test_5bit_with_carry():
+def test_5bit_with_carry(util):
     #    D    2    E    3    E    9    D    A    1    9    0    3    B    7    3    C
     # 1101 0010 1110 0011 1110 1001 1101 1010 0001 1001 0000 0011 1011 0111 0011 1100
     #
@@ -181,14 +168,14 @@ def test_5bit_with_carry():
     #   26    11    17    30    19    22    16    25     0    14    27    19
     #    M     h     r     R     B     G     q     L     2     n     N     B
 
-    safe32_bytes = fixed_bytes("d2 e3 e9 da 19 03 b7 3c")
+    safe32_bytes = util.fixed_bytes("d2 e3 e9 da 19 03 b7 3c")
     safe32_id = Puid(bits=20, chars=Chars.SAFE32, entropy_source=safe32_bytes)
     assert safe32_id.generate() == "MhrR"
     assert safe32_id.generate() == "BGqL"
     assert safe32_id.generate() == "2nNB"
 
 
-def test_5_plus_bit():
+def test_5_plus_bit(util):
     # shifts: [ [ 26, 5 ], [ 31, 3 ] ]
     #
     #    5    3    c    8    8    d    e    6    3    e    2    6    a    0
@@ -198,14 +185,14 @@ def test_5_plus_bit():
     # |---| |---| |---| |---| xxx xxx |---| |---| xxx |---| |---| |---|
     #   10    15     4     8   27  30   19     3   28    2    13     8
     #    k     p     e     i             t     d         c     n     i
-    alpha_lower_bytes = fixed_bytes("53 c8 8d e6 3e 26 a0")
+    alpha_lower_bytes = util.fixed_bytes("53 c8 8d e6 3e 26 a0")
     alpha_lower_id = Puid(bits=14, chars=Chars.ALPHA_LOWER, entropy_source=alpha_lower_bytes)
     assert alpha_lower_id.generate() == "kpe"
     assert alpha_lower_id.generate() == "itd"
     assert alpha_lower_id.generate() == "cni"
 
 
-def test_6_plus_bit():
+def test_6_plus_bit(util):
     #
     # shifts: [ [62, 6] ]
     #
@@ -218,28 +205,28 @@ def test_6_plus_bit():
     #    q      k      F      f             X      a
     #
 
-    alphanum_bytes = fixed_bytes("d2 e3 e9 fa 19 00")
+    alphanum_bytes = util.fixed_bytes("d2 e3 e9 fa 19 00")
     alphanum_id = Puid(bits=17, chars=Chars.ALPHANUM, entropy_source=alphanum_bytes)
     assert alphanum_id.generate() == "qkF"
     assert alphanum_id.generate() == "fXa"
 
 
-def test_base32():
-    base32_bytes = fixed_bytes("d2 e3 e9 da 19 12 ce")
+def test_base32(util):
+    base32_bytes = util.fixed_bytes("d2 e3 e9 da 19 12 ce")
     base32_id = Puid(bits=25, chars=Chars.BASE32, entropy_source=base32_bytes)
     assert base32_id.generate() == "UFLYN"
     assert base32_id.generate() == "QKT4F"
 
 
-def test_base32_hex():
-    base32_hex_bytes = fixed_bytes("d2 e3 e9 da 19 12 ce 28")
+def test_base32_hex(util):
+    base32_hex_bytes = util.fixed_bytes("d2 e3 e9 da 19 12 ce 28")
     base32_hex_id = Puid(bits=30, chars=Chars.BASE32_HEX, entropy_source=base32_hex_bytes)
     assert base32_hex_id.generate() == "qbhujm"
     assert base32_hex_id.generate() == "gp2b72"
 
 
-def test_base32_hex_upper():
-    base32_hex_upper_bytes = fixed_bytes("d2 e3 e9 da 19 12 ce 28")
+def test_base32_hex_upper(util):
+    base32_hex_upper_bytes = util.fixed_bytes("d2 e3 e9 da 19 12 ce 28")
     base32_hex_upper_id = Puid(bits=20, chars=Chars.BASE32_HEX_UPPER, entropy_source=base32_hex_upper_bytes)
     assert base32_hex_upper_id.generate() == "QBHU"
     assert base32_hex_upper_id.generate() == "JMGP"
