@@ -1,14 +1,14 @@
 def alphanum():
-    decimal = ord("0")
-    upper = ord("A") - 10
-    lower = ord("a") - 36
+    upper = ord("A")
+    lower = ord("a") - 26
+    decimal = ord("0") - 52
 
     def encoder(n):
-        if n < 10:
-            return n + decimal
-        if n < 36:
+        if n < 26:
             return n + upper
-        return n + lower
+        if n < 52:
+            return n + lower
+        return n + decimal
 
     return encoder
 
@@ -22,7 +22,10 @@ def alphanum_upper():
 
 
 def _alphanum_case(upper):
-    decimal = ord("0")
-    alpha = (ord("A") if upper else ord("a")) - 10
+    alpha = ord("A") if upper else ord("a")
+    decimal = ord("0") - 26
 
-    return lambda n: n + (decimal if n < 10 else alpha)
+    def encoder(n):
+        return n + (alpha if n < 26 else decimal)
+
+    return encoder
