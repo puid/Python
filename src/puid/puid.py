@@ -56,7 +56,11 @@ class Puid:
         self.bits_per_char = n_bits_per_char
 
         chars_encoder = encoder(self.chars)
-        self._encoded = lambda values: [chr(chars_encoder(value)) for value in values]
+
+        def encoded(values):
+            return [chr(chars_encoder(value)) for value in values]
+
+        self._encoded = encoded
 
         self.ere = (n_bits_per_char * n_chars) / (8 * len(self.chars.value.encode('utf-8')))
 

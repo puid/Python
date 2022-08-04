@@ -134,7 +134,6 @@ def muncher(n_chars, puid_len, entropy_fn):
         return slice_value()
 
     def bits_muncher():
-        puid = [slice_value() for _ in counter]
-        return puid
+        return [slice_value() for _ in counter]
 
     return bits_muncher
