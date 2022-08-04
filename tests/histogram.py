@@ -1,5 +1,4 @@
 from collections import OrderedDict
-import pytest
 import scipy.stats as stats
 
 from puid import Chars
