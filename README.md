@@ -220,18 +220,16 @@ A somewhat simplistic statement for entropy from information theory is: _entropy
 Rather, a random string represents _captured_ entropy, entropy that was produced by _some other_ process. For example, you cannot look at the hex string **`'18f6303a'`** and definitively say it has 32 bits of entropy. To see why, suppose you run the following code snippet and get **`'18f6303a'`**:
 
 ```python
-from random import random
-
-rand_id = lambda: '18f6303a' if random() < 0.5 else '1'
+rand_id = lambda: '18f6303a' if random.random() < 0.5 else '1'
 rand_id()
 '18f6303a'
 ```
 
-In this case, the entropy of the string **`'18f6303a'`** is 1 bit. That's it; 1 bit. The same entropy as when the outcome **`'1'`** is observed. In either case, there are only two equally possible outcomes and the resulting entropy is therefore 1 bit. It's important to have this clear understanding: 
+The entropy of the resulting string **`'18f6303a'`** is 1 bit. That's it; 1 bit. The same entropy as when the outcome **`'1'`** is observed. In either case, there are two equally possible outcomes and the resulting entropy is therefore 1 bit. It's important to have this clear understanding: 
 
  > _**Entropy is a measure in the uncertainty of an event, independent of the representation of that uncertainty**_
 
-In information theory you would state the above process has two symbols, **`18f6303a`** and **`1`**, and the outcome is equally likely to be either symbol. Hence there is 1 bit of entropy in the process. The symbols don't really matter. It would be much more likely to see the symbols **`T`** and **`F`**, or **`0`** and **`1`**, or even **`ON`** and **`OFF`**, but regardless, the process _produces_ 1 bit of entropy and symbols used to _represent_ that entropy do not effect the entropy itself.
+In information theory you would state the random process emits two symbols, **`18f6303a`** and **`1`**, and the outcome is equally likely to be either symbol. Hence there is 1 bit of entropy in the process. The symbols don't matter. It would be much more likely to see the symbols **`T`** and **`F`**, or **`0`** and **`1`**, or even **`ON`** and **`OFF`**, but regardless, the process _produces_ 1 bit of entropy and symbols used to _represent_ that entropy do not effect the entropy itself.
 
 #### Entropy source
 
@@ -239,14 +237,14 @@ Random string generators need an external source of entropy and typically use a 
 
 #### ID characters
 
-As noted, the characters (symbols) used for a random string do not determine the entropy. However, the number of unique characters does. Under the assumption that each character is equally probable (which maximizes entropy) it is easy to show the entropy per character is a constant log<sub>2</sub>(N), where `N` is of the number of characters available.
+As noted, the characters (symbols) used for a random string do not determine the entropy. However, the number of unique characters available does. Under the assumption that each character is equally probable (which maximizes entropy) it is easy to show the entropy per character is a constant log<sub>2</sub>(N), where `N` is of the number of characters available.
 
 
 #### ID randomness
 
 String randomness is determined by the entropy per character times the number of characters in the string. The *quality* of that randomness is directly tied to the quality of the entropy source. The *randomness* depends on the number of available characters and the length of the string.
 
-And finally we can state: a random string is a character representation of captured system entropy.
+And finally we can state: a random string is a character representation of captured entropy.
 
 [TOC](#TOC)
 
@@ -260,11 +258,11 @@ Recall that entropy is the measure of uncertainty in the possible outcomes of an
 
 Deterministic uniqueness checks, however, incur significant processing overhead and are rarely used. Instead, developers (knowingly?) relax the requirement that random IDs are truly, deterministically unique for a much lesser standard, one of probabilistic uniqueness. We "trust" that randomly generated IDs are unique by virtue of the chance of a repeated ID being very low.
 
-And once again, we reach a point of subtlety. (And we thought random strings were easy!) The "trust" that randomly generated IDs are unique actually turns entropy as it's been discussed thus far on it's head. Instead of viewing entropy as a measure of uncertainty in the *generation* of IDs, we consider entropy as a measure of the probability that no two IDs will be the same. To be sure, we want this probability to be very low, but for random strings it *cannot* be zero. And to be clear, *entropy is not such a measure*. Not directly anyway. Yes, the higher the entropy, the lower the probability, but it takes a bit of math to correlate the two in a proper manner. (Don't worry, `puid` takes care of this math for you).
+And once again, we reach a point of subtlety. (And we thought random strings were easy!) The "trust" that randomly generated IDs are unique actually turns entropy as it's been discussed thus far on it's head. Instead of viewing entropy as a measure of uncertainty in the *generation* of IDs, we consider entropy as a measure of the probability that no two IDs will be the same. To be sure, we want this probability to be very low, but for random strings it *cannot be zero*! And to be clear, *entropy is not such a measure*. Not directly anyway. Yes, the higher the entropy, the lower the probability, but it takes a bit of math to correlate the two in a proper manner. (Don't worry, `puid` takes care of this math for you).
 
 Furthermore, the probable uniqueness of ID generation is always in some limited context. Consider IDs for a data store. You don't care if a generated ID is the same as an ID used in another data store in another application in another company in a galaxy far, far away. You care that the ID is (probably) unique within the context of your application.
 
-To recap, random string generation does not produce unique IDs, but rather, IDs that are probably unique (within some context). That subtlety is important enough it's baked into the name of `puid` (and fully at odds with term `UUID`).
+To recap, random string generation does not produce unique IDs, but rather, IDs that are probably unique (within some context). That subtlety is important enough it's baked into the name of `puid`. And it is  fully at odds with the naming of a version 4 `uuid`. Why? Because being generated via a random process means a `uuid` *cannot be unique*. As a corollary, it can't be universal either. As noted above, we don't care about the universal part anyway, but the fact remains, a `uuid` isn't **uu**.
 
 [TOC](#TOC)
 
@@ -272,7 +270,7 @@ To recap, random string generation does not produce unique IDs, but rather, IDs 
 
 So what does the statement "*these IDs have 122 bits of entropy*" actually mean? Entropy is a measure of uncertainty after all, and we're concerned that our IDs be unique, probably unique anyway. So what does "122 bits of entropy" mean for the probable uniqueness of IDs?
 
-First, let's be clear what it _doesn't_ mean. We're concerned with uniqueness of a bunch of IDs in a certain context. The randomness of _any one_ of those ID isn't the real concern. Yes, we can say "*given 122 bits of entropy*" each ID has a probability of 2<sup>-122</sup> of occurring. And yes, that certainly makes the occurrence of any particular ID rare. But with respect to the uniqueness of IDs, it isn't "enough" to tell the whole story.
+First, let's be clear what it _doesn't_ mean. We're concerned with uniqueness of a bunch of IDs in a certain context. The randomness of _any one_ of those ID isn't the real concern. Yes, we can say "*given 122 bits of entropy*" each ID has a probability of 2<sup>-122</sup> of occurring. And yes, that certainly makes the occurrence of any particular ID rare. But with respect to the uniqueness of IDs, it simply isn't "enough" to tell the whole story.
 
 And here again we hit another subtlety. It turns out the question, as posed, is underspecified, i.e. it is not specific enough to be answered. To properly determine how entropy relates to the probable uniqueness of IDs, we need to specify *how many* IDs are to be generated in a certain context. Only then can we determine the probability of generating unique IDs. So our question really needs to be: given **N** bits of entropy, what is the probability of uniqueness in **T** random IDs?
 
@@ -294,12 +292,13 @@ To understand the difference, we'll investigate an example that is, surprisingly
 
 ```python
 from random import randint
+import string
 
-chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+chars = string.ascii_lowercase
 n_chars = len(chars)
 common_id = lambda len: "".join([chars[randint(0,n_chars)] for _ in range(len)])
-common_id(9)
-'zefudtm6'
+common_id(8)
+# => 'wnplkyiz'
 ```
 
 First, consider the amount of source entropy used in the code above. The Python spec declares `random.random()` (upon which `randint` depends) generates 53-bits of precision. So generating an 8 character ID above consumes 8 * 53 = 424 bits of source entropy.
@@ -327,7 +326,14 @@ The total entropy of a string is the product of the entropy per character times 
 
 Random string generation is plagued by overkill and under specified usage. Consider the all too frequent use of `uuid`s as random strings. The rational is seemingly that the probability of a repeated `uuid` is low. Yes, it is admittedly low, but is that sufficient reason to use a `uuid` without further thought? For example, suppose a `uuid` is used as a key in a data store that will have  at most a thousand items. What is the probability of a repeated `uuid` in this case? It's 1 in a nonillion. That's 10^30, or 1 followed by 30 zeros, or million times the estimated number of stars in the universe. Really? Doesn't that seem a bit overkill? Do really you need that level of assurance? And if so, why stop there? Why not concatenate two `uuid`s and get an even more ridiculous level of "assurance".  
 
-Or why not be a bit more reasonable and think about the problem for a moment. Suppose you accept a 1 in 10^15 risk of repeat. That's still a *really* low risk. Ah, but wait, to do that you can't use a `uuid`, because `uuid` generation isn't flexible. The characters are fixed, the representation is fixed, and the bits of entropy are fixed. But you could very easily use `puid` to generate such IDs:
+Or why not be a bit more reasonable and think about the problem for a moment. Suppose you accept a 1 in 10^15 risk of repeat. That's still a *really* low risk. Ah, but wait, to do that you can't use a `uuid`, because `uuid` generation isn't flexible. The characters are fixed, the representation is fixed, and the bits of entropy are fixed.
+
+You could generate the IDs by determining the actual amount of ID entropy required (it's 68.76 bits), selecting some set of characters, calculate the string length necessary given those characters, and finally generate the IDs as outlined in the earlier common ID generation scheme.
+
+Whew, maybe that's another reason developers tend to use uuids. That seems like a lot of effort.
+
+Ah, but there is another way. You could very easily use `puid` to generate such IDs:
+
 
 ```python
 from puid import Puid
@@ -337,20 +343,17 @@ db_id.generate()
 'tcDPzTAjoRcU'
 ```
 
-The resulting ID have 72 bits of entropy. But guess what? You don't care. What you care is having explicitly stated you expect to have 1000 IDs and your level of repeat risk is 1 in a quadrillion. It's right there in the code. And as added bonus, the IDs are only 12 characters long, not 36. Who doesn't like ease, control and efficiency?
+The resulting IDs have 72 bits of entropy. But guess what? You don't care. What you care is having explicitly stated you expect to have 1000 IDs and your level of repeat risk is 1 in a quadrillion. It's right there in the code. And as added bonus, the IDs are only 12 characters long, not 36. Who doesn't like ease, control and efficiency?
 
 #### Under specify
 
-Another head-scratcher in schemes that generate random strings is using an API that explicitly declares string length. Why is this troubling? Because that declaration doesn't specify the actual amount of desired randomness, either needed or achieved. Suppose you are tasked with maintaining code that is using random IDs of 15 characters composed of digits and lower alpha characters. Why are the IDs 15 characters long? Unless there are code comments, you have no idea. And without knowing how many IDs are expected, you can't determine the risk of a repeat, i.e., you can't even make a statement about how random the random IDs actually are! Was 15 chosen for a reason, or just because it made the IDs look good?
+Another head-scratcher in schemes that generate random strings is using an API that explicitly declares string length. Why is this troubling? Because that declaration doesn't specify the actual amount of desired randomness, either needed or achieved. Suppose you are tasked with maintaining code that is using random IDs of 15 characters composed of digits and lower alpha characters. Why are the IDs 15 characters long? Without code comments, you have no idea. And without knowing how many IDs are expected, you can't determine the risk of a repeat, i.e., you can't even make a statement about how random the random IDs actually are! Was 15 chosen for a reason, or just because it made the IDs look good?
 
 Now, suppose you are tasked to maintain this code:
 
 ```python
 from puid import Chars, Puid
-
 rand_id = Puid(total=500000, risk=1e12, chars=Chars.ALPHANUM_LOWER)
-rand_id.generate()
-'dfvzm2eddhsf0tt'
 ```
 
 Hmmm. Looks like there are 500,000 IDs expected and the repeat risk is 1 in a trillion. No guessing. The code is explicit. Oh, and by the way, the IDs are 15 characters long. But who cares? It's the ID randomness that matters, not the length.
