@@ -62,7 +62,10 @@ class Util:
         chars_type, chars_def = param.split(':')
         if chars_type == 'predefined':
             return Util.predefined(chars_def)
-        return None
+        elif chars_type == 'custom':
+            return chars_def
+        else:
+            raise ArgumentError('params file has invalid chars def:', param)
 
     @staticmethod
     def predefined(name):
