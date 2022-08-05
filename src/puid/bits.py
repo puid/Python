@@ -118,8 +118,12 @@ def muncher(n_chars, puid_len, entropy_fn):
             return (True, n_bits_per_char)
 
         # For invalid value, shift the minimal bits necessary to determine validity
-        shift = [bit_shift for bit_shift in shifts if value <= bit_shift[0]][0]
-        return (False, shift[1])
+        # If only one item, no need to search
+        if len(shifts) == 1:
+            return (False, shifts[0][1])
+
+        bit_shift = [bs for bs in shifts if value <= bs[0]]
+        return (False, bit_shift[0][1])
 
     def slice_value():
         nonlocal entropy_offset
