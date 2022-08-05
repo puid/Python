@@ -254,6 +254,15 @@ def test_safe_ascii():
     check_puid(safe_ascii_id, 58.43, 6.49, 9, 0.81, Chars.SAFE_ASCII.name)
 
 
+def test_alpha_10_lower(util):
+    alpha_10_lower_bytes = util.fixed_bytes_string("8a a4 e3 8a 63 e9 d2 19 12 ce 28 51")
+    alpha_10_lower_id = Puid(bits=14, chars="abcdefghij", entropy_source=alpha_10_lower_bytes)
+
+    alpha_10_lower_id.generate() == "ieiig"
+    alpha_10_lower_id.generate() == "dheig"
+    alpha_10_lower_id.generate() == "eedib"
+
+
 def test_256_chars():
     single_byte = Chars.SAFE64.value
 

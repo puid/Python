@@ -11,6 +11,9 @@ source =
 omit =
     **/__main__.py
     **/cli.py
+    tests/conftest.py
+    tests/data.py
+    tests/histogram.py
 parallel = true
 
 [report]
