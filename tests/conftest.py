@@ -1,6 +1,7 @@
-from collections import namedtuple
-import pytest
 import os
+from collections import namedtuple
+
+import pytest
 
 from puid import Chars
 from puid import Puid
@@ -65,7 +66,7 @@ class Util:
         elif chars_type == 'custom':
             return chars_def
         else:
-            raise ArgumentError('params file has invalid chars def:', param)
+            raise ValueError('params file has invalid chars def:', param)
 
     @staticmethod
     def predefined(name):

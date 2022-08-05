@@ -1,9 +1,9 @@
 from collections import OrderedDict
+
 import scipy.stats as stats
 
 from puid import Chars
 from puid import Puid
-
 
 trials = 50_000
 risk = 1e12
