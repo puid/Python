@@ -1,0 +1,43 @@
+{% set name = "puid-py" %}
+{% set version = "1.1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: ba77fe41b8f009cb93cb7916dbaf23dad649b8db400cb0da87cd237ccaeed040
+
+build:
+  number: 0
+  entry_points:
+    - puid = puid.cli:main
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - pip
+    - python>=3.7
+  run:
+    - python>=3.7
+
+test:
+  imports:
+    - puid
+    - puid.encoders
+  commands:
+    - puid --help
+
+about:
+  home: "https://github.com/puid/python"
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: "Simple, flexible and efficient generation of probably unique identifiers (puid, aka random strings) of intuitively specified entropy using pre-defined or custom characters, including unicode"
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - dingosky

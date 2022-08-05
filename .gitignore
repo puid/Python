@@ -73,4 +73,6 @@ docs/_build
 # Mypy Cache
 .mypy_cache/
 
+conda/conda-out
+
 test/data
