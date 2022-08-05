@@ -23,7 +23,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='puid-py',
-    version='1.0.0',
+    version='1.1.0',
     license='MIT',
     description='Simple, flexible and efficient generation of probably unique identifiers (`puid`, '
     'aka random strings) of intuitively specified entropy using pre-defined or custom characters, '
@@ -53,12 +53,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        # uncomment if you test on these interpreters:
-        # 'Programming Language :: Python :: Implementation :: IronPython',
-        # 'Programming Language :: Python :: Implementation :: Jython',
-        # 'Programming Language :: Python :: Implementation :: Stackless',
         'Topic :: Utilities',
     ],
     project_urls={
