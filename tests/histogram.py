@@ -49,6 +49,10 @@ def test_alphanum():
     chi_square(trials, risk, chars=Chars.ALPHANUM)
 
 
+def test_safe32():
+    chi_square(trials, risk, chars=Chars.SAFE32)
+
+
 def test_safe_ascii():
     chi_square(trials, risk, chars=Chars.SAFE_ASCII)
 

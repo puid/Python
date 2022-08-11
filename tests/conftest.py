@@ -65,8 +65,38 @@ class Util:
 
     @staticmethod
     def predefined(name):
+        if name == 'alpha':
+            return Chars.ALPHA
+        if name == 'alpha_lower':
+            return Chars.ALPHA_LOWER
+        if name == 'alpha_upper':
+            return Chars.ALPHA_UPPER
         if name == 'alphanum':
             return Chars.ALPHANUM
+        if name == 'alphanum_lower':
+            return Chars.ALPHANUM_LOWER
+        if name == 'alphanum_upper':
+            return Chars.ALPHANUM_UPPER
+        if name == 'base32':
+            return Chars.BASE32
+        if name == 'base32_hex':
+            return Chars.BASE32_HEX
+        if name == 'base32_hex_upper':
+            return Chars.BASE32_HEX_UPPER
+        if name == 'decimal':
+            return Chars.DECIMAL
+        if name == 'hex':
+            return Chars.HEX
+        if name == 'hex_upper':
+            return Chars.HEX_UPPER
+        if name == 'safe_ascii':
+            return Chars.SAFE_ASCII
+        if name == 'safe32':
+            return Chars.SAFE32
+        if name == 'safe64':
+            return Chars.SAFE6
+        if name == 'symbol':
+            return Chars.SYMBOL
         return None
 
     @staticmethod

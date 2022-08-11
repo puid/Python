@@ -74,5 +74,3 @@ docs/_build
 .mypy_cache/
 
 conda/conda-out
-
-test/data
