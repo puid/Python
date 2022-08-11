@@ -11,12 +11,16 @@ class Util:
     Params = namedtuple('Params', 'bin_file mod_name total risk chars ids_count')
 
     @staticmethod
-    def fixed_bytes_string(hex_string):
-        return Util.fixed_bytes(bytearray.fromhex(hex_string))
+    def fixed_bytes(hex_string):
+        return Util.static_bytes_fn(bytearray.fromhex(hex_string))
 
     @staticmethod
-    def fixed_bytes(static_bytes):
-        bytes = static_bytes
+    def file_bytes(bin_file):
+        with open(bin_file, 'rb') as file:
+            return Util.static_bytes_fn(bytearray(file.read()))
+
+    @staticmethod
+    def static_bytes_fn(bytes):
         offset = 0
 
         def get_bytes(n_bytes):
@@ -28,17 +32,8 @@ class Util:
         return get_bytes
 
     @staticmethod
-    def file_bytes(bin_file):
-        with open(bin_file, 'rb') as file:
-            return Util.fixed_bytes(bytearray(file.read()))
-
-    @staticmethod
-    def data_dir(data_name):
-        return os.path.join(os.getcwd(), 'tests', 'data', data_name)
-
-    @staticmethod
     def data_path(data_name, file_name):
-        return os.path.join(Util.data_dir(data_name), file_name)
+        return os.path.join(os.getcwd(), 'tests', 'data', data_name, file_name)
 
     @staticmethod
     def params(data_name):
