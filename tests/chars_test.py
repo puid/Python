@@ -18,9 +18,11 @@ def predefined_chars():
         Chars.ALPHANUM,
         Chars.ALPHANUM_LOWER,
         Chars.ALPHANUM_UPPER,
+        Chars.BASE16,
         Chars.BASE32,
         Chars.BASE32_HEX,
         Chars.BASE32_HEX_UPPER,
+        Chars.CROCKFORD32,
         Chars.DECIMAL,
         Chars.HEX,
         Chars.HEX_UPPER,
@@ -28,6 +30,7 @@ def predefined_chars():
         Chars.SAFE64,
         Chars.SAFE_ASCII,
         Chars.SYMBOL,
+        Chars.WORD_SAFE32
     ]
 
 
