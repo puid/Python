@@ -77,12 +77,16 @@ class Util:
             return Chars.ALPHANUM_LOWER
         if name == 'alphanum_upper':
             return Chars.ALPHANUM_UPPER
+        if name == 'base16':
+            return Chars.BASE16
         if name == 'base32':
             return Chars.BASE32
         if name == 'base32_hex':
             return Chars.BASE32_HEX
         if name == 'base32_hex_upper':
             return Chars.BASE32_HEX_UPPER
+        if name == 'crockford32':
+            return Chars.CROCKFORD32
         if name == 'decimal':
             return Chars.DECIMAL
         if name == 'hex':
@@ -97,6 +101,9 @@ class Util:
             return Chars.SAFE6
         if name == 'symbol':
             return Chars.SYMBOL
+        if name == 'word_safe32':
+            return Chars.WORD_SAFE32
+
         return None
 
     @staticmethod

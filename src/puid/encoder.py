@@ -5,9 +5,11 @@ from puid.encoders.alpha import alpha_upper
 from puid.encoders.alphanum import alphanum
 from puid.encoders.alphanum import alphanum_lower
 from puid.encoders.alphanum import alphanum_upper
+from puid.encoders.base16 import base16
 from puid.encoders.base32 import base32
 from puid.encoders.base32 import base32_hex
 from puid.encoders.base32 import base32_hex_upper
+from puid.encoders.crockford32 import crockford32
 from puid.encoders.custom import custom
 from puid.encoders.decimal import decimal
 from puid.encoders.hex import hex_lower
@@ -16,6 +18,7 @@ from puid.encoders.safe32 import safe32
 from puid.encoders.safe64 import safe64
 from puid.encoders.safe_ascii import safe_ascii
 from puid.encoders.symbol import symbol
+from puid.encoders.word_safe32 import word_safe32
 
 
 def encoder(chars: Chars):
@@ -37,6 +40,9 @@ def encoder(chars: Chars):
     if chars.name == Chars.ALPHANUM_UPPER.name:
         return alphanum_upper()
 
+    if chars.name == Chars.BASE16.name:
+        return base16()
+
     if chars.name == Chars.BASE32.name:
         return base32()
 
@@ -45,6 +51,9 @@ def encoder(chars: Chars):
 
     if chars.name == Chars.BASE32_HEX_UPPER.name:
         return base32_hex_upper()
+
+    if chars.name == Chars.CROCKFORD32.name:
+        return crockford32()
 
     if chars.name == Chars.DECIMAL.name:
         return decimal()
@@ -66,5 +75,8 @@ def encoder(chars: Chars):
 
     if chars.name == Chars.SYMBOL.name:
         return symbol()
+
+    if chars.name == Chars.WORD_SAFE32.name:
+        return word_safe32()
 
     return custom(chars)

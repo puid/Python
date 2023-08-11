@@ -211,6 +211,29 @@ def test_6_plus_bit(util):
     assert alphanum_id.generate() == "phk"
 
 
+def test_alpha_10_lower(util):
+    alpha_10_lower_bytes = util.fixed_bytes("8a a4 e3 8a 63 e9 d2 19 12 ce 28 51")
+    alpha_10_lower_id = Puid(bits=14, chars="abcdefghij", entropy_source=alpha_10_lower_bytes)
+
+    alpha_10_lower_id.generate() == "ieiig"
+    alpha_10_lower_id.generate() == "dheig"
+    alpha_10_lower_id.generate() == "eedib"
+
+
+def test_alpha_upper():
+    alpha_upper_id = Puid(bits=48, chars=Chars.ALPHA_UPPER)
+    check_puid(alpha_upper_id, 51.7, 4.7, 11, 0.59, Chars.ALPHA_UPPER.name)
+
+
+def test_base16(util):
+    base16_bytes = util.fixed_bytes("c7 c9 00 2a 16 32")
+    base16_id = Puid(bits=12, chars=Chars.BASE16, entropy_source=base16_bytes)
+    assert base16_id.generate() == "C7C"
+    assert base16_id.generate() == "900"
+    assert base16_id.generate() == "2A1"
+    assert base16_id.generate() == "632"
+
+
 def test_base32(util):
     #
     # shifts: [ [32, 5] ]
@@ -244,9 +267,12 @@ def test_base32_hex_upper(util):
     assert base32_hex_upper_id.generate() == "2B72"
 
 
-def test_alpha_upper():
-    alpha_upper_id = Puid(bits=48, chars=Chars.ALPHA_UPPER)
-    check_puid(alpha_upper_id, 51.7, 4.7, 11, 0.59, Chars.ALPHA_UPPER.name)
+def test_crockford32(util):
+    crockford32_bytes = util.fixed_bytes("d2 e3 e9 da 19 03 b7 3c")
+    crockford32_id = Puid(bits=20, chars=Chars.CROCKFORD32, entropy_source=crockford32_bytes)
+    assert crockford32_id.generate() == "TBHY"
+    assert crockford32_id.generate() == "KPGS"
+    assert crockford32_id.generate() == "0EVK"
 
 
 def test_safe_ascii():
@@ -254,13 +280,12 @@ def test_safe_ascii():
     check_puid(safe_ascii_id, 58.43, 6.49, 9, 0.81, Chars.SAFE_ASCII.name)
 
 
-def test_alpha_10_lower(util):
-    alpha_10_lower_bytes = util.fixed_bytes("8a a4 e3 8a 63 e9 d2 19 12 ce 28 51")
-    alpha_10_lower_id = Puid(bits=14, chars="abcdefghij", entropy_source=alpha_10_lower_bytes)
-
-    alpha_10_lower_id.generate() == "ieiig"
-    alpha_10_lower_id.generate() == "dheig"
-    alpha_10_lower_id.generate() == "eedib"
+def test_wordSafe32(util):
+    wordSafe32_bytes = util.fixed_bytes("d2 e3 e9 da 19 03 b7 3c")
+    wordSafe32_id = Puid(bits=20, chars=Chars.WORD_SAFE32, entropy_source=wordSafe32_bytes)
+    assert wordSafe32_id.generate() == "pHVw"
+    assert wordSafe32_id.generate() == "XgRm"
+    assert wordSafe32_id.generate() == "2PqX"
 
 
 def test_256_chars():
