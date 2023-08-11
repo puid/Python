@@ -23,7 +23,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='puid-py',
-    version='1.1.1',
+    version='1.2.0',
     license='MIT',
     description='Simple, flexible and efficient generation of probably unique identifiers (`puid`, '
     'aka random strings) of intuitively specified entropy using pre-defined or custom characters, '
