@@ -16,19 +16,20 @@ from math import ceil, floor, log2
 def bit_shifts(n_chars):
     n_bits_per_char = ceil(log2(n_chars))
 
-    base_shift = (n_chars, n_bits_per_char)
+    base_value = n_chars - 1 if n_chars % 2 == 0 else n_chars
+    base_shift = (base_value, n_bits_per_char)
 
     if log2(n_chars).is_integer():
         return [base_shift]
 
     def is_bit_zero(bit):
-        return n_chars & (1 << (bit - 1)) == 0
+        return base_value & (1 << (bit - 1)) == 0
 
     def pow2(bit):
         return round(pow(2, bit))
 
     def shift(bit):
-        return (n_chars | pow2(bit) - 1, n_bits_per_char - bit + 1)
+        return (base_value | pow2(bit) - 1, n_bits_per_char - bit + 1)
 
     return [base_shift] + [shift(bit) for bit in range(2, n_bits_per_char) if is_bit_zero(bit)]
 

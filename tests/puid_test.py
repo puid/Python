@@ -176,39 +176,41 @@ def test_5bit_with_carry(util):
 
 
 def test_5_plus_bit(util):
-    # shifts: [ [ 26, 5 ], [ 31, 3 ] ]
+    # shifts: [(25, 5), (27, 4), (31, 3)])
     #
-    #    5    3    c    8    8    d    e    6    3    e    2    6    a    0
-    # 0101 0011 1100 1000 1000 1101 1110 0110 0011 1110 0010 0110 1010 0000
+    #    5    3    c    8    8    d    e    6    3    e    2    7    e    f
+    # 0101 0011 1100 1000 1000 1101 1110 0110 0011 1110 0010 0111 1110 1111
     #
-    # 01010 01111 00100 01000 110 111 10011 00011 111 00010 01101 01000 00
-    # |---| |---| |---| |---| xxx xxx |---| |---| xxx |---| |---| |---|
-    #   10    15     4     8   27  30   19     3   28    2    13     8
-    #    k     p     e     i             t     d         c     n     i
-    alpha_lower_bytes = util.fixed_bytes("53 c8 8d e6 3e 26 a0")
+    # 01010 01111 00100 01000 1101 111 00110 00111 11000 10011 111 10111 1
+    # 01010 01111 00100 01000 1101 111 00110 00111 11000 10011 111 10111
+    # |---| |---| |---| |---| xxxx xxx |---| |---| |---| |---| xxx |---|
+    #   10    15     4     8   27   28    6     7    24    19   30   23
+    #    k     p     e     i              g     h     y     t         x
+
+    alpha_lower_bytes = util.fixed_bytes("53 c8 8d e6 3e 27 ef")
     alpha_lower_id = Puid(bits=14, chars=Chars.ALPHA_LOWER, entropy_source=alpha_lower_bytes)
     assert alpha_lower_id.generate() == "kpe"
-    assert alpha_lower_id.generate() == "itd"
-    assert alpha_lower_id.generate() == "cni"
+    assert alpha_lower_id.generate() == "igh"
+    assert alpha_lower_id.generate() == "ytx"
 
 
 def test_6_plus_bit(util):
     #
-    # shifts: [ [62, 6] ]
+    # shifts: [(61, 6), (63, 5)]
     #
     #    D    2    E    3    E    9    F    A    1    9    0    0
     # 1101 0010 1110 0011 1110 1001 1111 1010 0001 1001 0000 0000
     #
-    # 110100 101110 001111 101001 111110 100001 100100 000000
-    # |----| |----| |----| |----| xxxxxx |----| |----| |----|
-    #   52     46     15     41     62     33     36      0
-    #    0      u      P      p             h      k      A
+    # 110100 101110 001111 101001 11111 010000 110010 000000 0
+    # |----| |----| |----| |----| xxxxx |----| |----| |----|
+    #   52     46     15     41     62     16     50      0
+    #    0      u      P      p             Q      y      A
     #
 
     alphanum_bytes = util.fixed_bytes("d2 e3 e9 fa 19 00")
     alphanum_id = Puid(bits=17, chars=Chars.ALPHANUM, entropy_source=alphanum_bytes)
     assert alphanum_id.generate() == "0uP"
-    assert alphanum_id.generate() == "phk"
+    assert alphanum_id.generate() == "pQy"
 
 
 def test_alpha_10_lower(util):
@@ -236,7 +238,7 @@ def test_base16(util):
 
 def test_base32(util):
     #
-    # shifts: [ [32, 5] ]
+    # shifts: [(32, 5)]
     #
     #    D    2    E    3    E    9    F    A    1    9    1    2    C    E
     # 1101 0010 1110 0011 1110 1001 1111 1010 0001 1001 0001 0010 1100 1110
