@@ -1,9 +1,6 @@
 from enum import Enum
 
-from puid.chars_error import InvalidChars
-from puid.chars_error import NonUniqueChars
-from puid.chars_error import TooFewChars
-from puid.chars_error import TooManyChars
+from puid.chars_error import InvalidChars, NonUniqueChars, TooFewChars, TooManyChars
 
 
 def valid_chars(chars):

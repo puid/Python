@@ -1,16 +1,13 @@
-from math import ceil
-from math import log2
+from math import ceil, log2
 from secrets import token_bytes
 
 from puid import Chars
 from puid.bits import muncher
-from puid.chars import CustomChars
-from puid.chars import PredefinedChars
+from puid.chars import CustomChars, PredefinedChars
 from puid.chars_error import InvalidChars
 from puid.encoder import encoder
 from puid.entropy import bits_for_total_risk
-from puid.puid_error import BitsError
-from puid.puid_error import TotalRiskError
+from puid.puid_error import BitsError, TotalRiskError
 
 
 class Puid:

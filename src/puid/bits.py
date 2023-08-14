@@ -1,6 +1,4 @@
-from math import ceil
-from math import floor
-from math import log2
+from math import ceil, floor, log2
 
 #  Create array of minimum bits required to determine if a value is less than n_chars
 #  Array elements are of the form (n, bits): For values less than n, bits bits are required

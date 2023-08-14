@@ -1,9 +1,7 @@
 import pytest
 
 from puid import Chars
-from puid.chars import CustomChars
-from puid.chars import PredefinedChars
-from puid.chars import valid_chars
+from puid.chars import CustomChars, PredefinedChars, valid_chars
 from puid.chars_error import InvalidChars
 from puid.chars_error import NonUniqueChars
 from puid.chars_error import TooFewChars

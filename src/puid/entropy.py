@@ -1,6 +1,4 @@
-from math import ceil
-from math import log2
-from math import trunc
+from math import ceil, log2, trunc
 
 from puid.chars import ValidChars
 from puid.chars_error import InvalidChars
