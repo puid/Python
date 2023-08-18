@@ -290,6 +290,16 @@ def test_wordSafe32(util):
     assert wordSafe32_id.generate() == "2PqX"
 
 
+def test_unicode_chars(util):
+    unicode_bytes = util.fixed_bytes('ec f9 db 7a 33 3d 21 97 a0 c2 bf 92 80 dd 2f 57 12 c1 1a ef')
+    unicode_id = Puid(bits=24, chars='dîngøsky:￦', entropy_source=unicode_bytes)
+
+    assert unicode_id.generate() == '￦gî￦￦nî￦'
+    assert unicode_id.generate() == 'ydkîsnsd'
+    assert unicode_id.generate() == 'îøsîndøk'
+    pass
+
+
 def test_256_chars():
     single_byte = Chars.SAFE64.value
 
