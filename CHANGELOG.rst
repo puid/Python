@@ -3,6 +3,17 @@ Changelog
 =========
 
 -------------------
+v1.2.0 (2023-08-08)
+-------------------
+
+* Optimize bit shift
+* Add pre-defined char sets
+  * Base16 (RFC6468). Note: Same as HexUpper
+  * Crockford32
+  * WordSafe32 (Another avoid words strategy)
+
+
+-------------------
 v1.1.0 (2022-08-04)
 -------------------
 

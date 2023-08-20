@@ -43,7 +43,7 @@ Random string generation can be thought of as a _transformation_ of some random 
 
    What characters are used in the ID?
 
-   > `puid` provides 16 pre-defined character sets, as well as allows custom characters, including Unicode
+   > `puid` provides 19 pre-defined character sets, as well as allows custom characters, including Unicode
 
 3. **ID randomness**
 
@@ -73,7 +73,9 @@ rand_id.generate()
 from puid import Puid
 from random import getrandbits
 
-prng_bytes = lambda n: bytearray(getrandbits(8) for _ in range(n))
+def prng_bytes(n):
+    return bytearray(getrandbits(8) for _ in range(n))
+
 prng_id = Puid(entropy_source=prng_bytes)
 prng_id.generate()
 'JcQTr8u7MATncImOjO0qOS'
@@ -95,7 +97,7 @@ dingosky_id.generate()
 'sdosigokdsdygooggogdggisndkogonksnkodnokosg'
 
 unicode_id = Puid(chars='dîñgø$kyDÎÑGØßK¥')
-unicode_id.()
+unicode_id.generate()
 'îGÎØÎÑî¥gK¥Ñ¥kîDîyøøØñÑØyd¥¥ØGØÑ$KßØgøÑ'
 ```
 
@@ -191,45 +193,45 @@ Puid: bits = 80.0, bits_per_char = 5.0, chars = BASE32 -> '234567ABCDEFGHIJKLMNO
 
 There are 19 pre-defined character sets:
 
-| Name           | Characters                                                                                    |
-| :------------- | :-------------------------------------------------------------------------------------------- |
-| Alpha          | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz                                          |
-| AlphaLower     | abcdefghijklmnopqrstuvwxyz                                                                    |
-| AlphaUpper     | ABCDEFGHIJKLMNOPQRSTUVWXYZ                                                                    |
-| Alphanum       | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789                                |
-| AalphanumLower | abcdefghijklmnopqrstuvwxyz0123456789                                                          |
-| AalphanumUpper | ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789                                                          |
-| Base16         | 0123456789ABCDEF                                                                              |
-| Base32         | ABCDEFGHIJKLMNOPQRSTUVWXYZ234567                                                              |
-| Base32Hex      | 0123456789abcdefghijklmnopqrstuv                                                              |
-| Base32HexUpper | 0123456789ABCDEFGHIJKLMNOPQRSTUV                                                              |
-| Crockford32    | 0123456789ABCDEFGHJKMNPQRSTVWXYZ                                                              |
-| Decimal        | 0123456789                                                                                    |
-| Hex            | 0123456789abcdef                                                                              |
-| HexUpper       | 0123456789ABCDEF                                                                              |
-| SafeAscii      | !#$%&()\*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^\_abcdefghijklmnopqrstuvwxyz{\|}~ |
-| Safe32         | 2346789bdfghjmnpqrtBDFGHJLMNPQRT                                                              |
-| Safe64         | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-\_                             |
-| Symbol         | !#$%&()\*+,-./:;<=>?@[]^\_{\|}~                                                               |
-| WordSafe32     | 23456789CFGHJMPQRVWXcfghjmpqrvwx                                                              |
+| Name             | Characters                                                                                    |
+| :--------------- | :-------------------------------------------------------------------------------------------- |
+| ALPHA            | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz                                          |
+| ALPHA_LOWER      | abcdefghijklmnopqrstuvwxyz                                                                    |
+| ALPHA_UPPER      | ABCDEFGHIJKLMNOPQRSTUVWXYZ                                                                    |
+| ALPHANUM         | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789                                |
+| ALPHANUM_LOWER   | abcdefghijklmnopqrstuvwxyz0123456789                                                          |
+| ALPHANUM_UPPER   | ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789                                                          |
+| BASE16           | 0123456789ABCDEF                                                                              |
+| BASE32           | ABCDEFGHIJKLMNOPQRSTUVWXYZ234567                                                              |
+| BASE32_HEX       | 0123456789abcdefghijklmnopqrstuv                                                              |
+| BASE32_HEX_UPPER | 0123456789ABCDEFGHIJKLMNOPQRSTUV                                                              |
+| CROCKFORD32      | 0123456789ABCDEFGHJKMNPQRSTVWXYZ                                                              |
+| DECIMAL          | 0123456789                                                                                    |
+| HEX              | 0123456789abcdef                                                                              |
+| HEX_UPPER        | 0123456789ABCDEF                                                                              |
+| SAFE_ASCII       | !#$%&()\*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^\_abcdefghijklmnopqrstuvwxyz{\|}~ |
+| SAFE32           | 2346789bdfghjmnpqrtBDFGHJLMNPQRT                                                              |
+| SAFE64           | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-\_                             |
+| SYMBOL           | !#$%&()\*+,-./:;<=>?@[]^\_{\|}~                                                               |
+| WORD_SAFE32      | 23456789CFGHJMPQRVWXcfghjmpqrvwx                                                              |
 
 Any string of up to 256 unique characters can be used for **`puid`** generation.
 
 #### Description of non-obvious character sets
 
-| Name           | Description                                                |
-| :------------- | :--------------------------------------------------------- |
-| Base16         | https://datatracker.ietf.org/doc/html/rfc4648#section-8    |
-| Base32         | https://datatracker.ietf.org/doc/html/rfc4648#section-6    |
-| Base32Hex      | Lowercase of Base32HexUpper                                |
-| Base32HexUpper | https://datatracker.ietf.org/doc/html/rfc4648#section-7    |
-| Crockford32    | https://www.crockford.com/base32.html                      |
-| SafeAscii      | Printable ascii that does not require escape in String     |
-| Safe32         | Alpha and numbers picked to reduce chance of English words |
-| Safe64         | https://datatracker.ietf.org/doc/html/rfc4648#section-5    |
-| WordSafe32     | Alpha and numbers picked to reduce chance of English words |
+| Name             | Description                                                |
+| :--------------- | :--------------------------------------------------------- |
+| BASE16           | https://datatracker.ietf.org/doc/html/rfc4648#section-8    |
+| BASE32           | https://datatracker.ietf.org/doc/html/rfc4648#section-6    |
+| BASE32_HEX       | Lowercase of Base32HexUpper                                |
+| BASE32_HEX_UPPER | https://datatracker.ietf.org/doc/html/rfc4648#section-7    |
+| CROCKFORD32      | https://www.crockford.com/base32.html                      |
+| SAFE_ASCII       | Printable ascii that does not require escape in String     |
+| SAFE32           | Alpha and numbers picked to reduce chance of English words |
+| SAFE64           | https://datatracker.ietf.org/doc/html/rfc4648#section-5    |
+| WORD_SAFE32      | Alpha and numbers picked to reduce chance of English words |
 
-Note: Safe32 and WordSafe32 are two different strategies for the same goal.
+Note: SAFE32 and WORD_SAFE32 are two different strategies for the same goal.
 
 [TOC](#TOC)
 
@@ -252,7 +254,9 @@ A somewhat simplistic statement for entropy from information theory is: _entropy
 Rather, a random string represents _captured_ entropy, entropy that was produced by _some other_ process. For example, you cannot look at the hex string **`'18f6303a'`** and definitively say it has 32 bits of entropy. To see why, suppose you run the following code snippet and get **`'18f6303a'`**:
 
 ```python
-rand_id = lambda: '18f6303a' if random.random() < 0.5 else '1'
+from random import random
+
+rand_id = lambda: '18f6303a' if random() < 0.5 else '1'
 rand_id()
 '18f6303a'
 ```
@@ -382,7 +386,7 @@ Now, suppose you are tasked to maintain this code:
 
 ```python
 from puid import Chars, Puid
-rand_id = Puid(total=500000, risk=1e12, chars=Chars.ALPHANUM_LOWER)
+rand_id = Puid(total=500_000, risk=1e12, chars=Chars.ALPHANUM_LOWER)
 ```
 
 Hmmm. Looks like there are 500,000 IDs expected and the repeat risk is 1 in a trillion. No guessing. The code is explicit. Oh, and by the way, the IDs are 15 characters long. But who cares? It's the ID randomness that matters, not the length.
@@ -433,7 +437,7 @@ Hmmm. Looks like there are 500,000 IDs expected and the repeat risk is 1 in a tr
 ```python
 from puid import Chars, Puid
 
-Puid(chars=Chars.SAFE32, total=10e6, risk=1e15)
+rand_id = Puid(chars=Chars.SAFE32, total=10e6, risk=1e15)
 rand_id.generate()
 'RHR3DtnP9B3J748NdR87'
 ```
